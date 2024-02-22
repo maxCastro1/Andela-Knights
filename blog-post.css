@@ -1,0 +1,32 @@
+.view-blog-card{
+    padding-block: 112px;
+}
+.blog-cards{
+    width: 100%;
+}
+.comment{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    max-width: 600px;
+}
+.gost-btn{
+    margin-block: 2rem;
+}
+
+.line-bottom{
+    padding-bottom: 1rem;
+    border-bottom: solid 2px var(--dark-mode-border-color);
+}
+.comment-form{
+    max-width: 600px;
+    margin-inline-start: 1rem;
+}
+@media screen and (max-width: 1100px) {
+  
+    .blog-cards{
+        width: 100% !important;
+        max-width: unset;
+    }
+}
