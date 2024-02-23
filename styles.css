@@ -6,6 +6,7 @@
     --dark-mode-border-color: #00114A; /* Border color for non-dark mode */
     --dark-mode-container-background: #000516; /* Container background for non-dark mode */
     --dark-mode-background: #00000F; /* Background for non-dark mode */
+    --dark-mode-footer-color: #00071D; /* Background for non-dark mode */
     --transition:all .2s ease-in-out;
   }
 
@@ -21,6 +22,7 @@ body,html {
     scroll-behavior: smooth;
 }
 
+  
 .main-cont {
     padding-inline:100px;
     max-width: 1440px;
@@ -125,6 +127,10 @@ nav {
     transition: var(--transition);
     border-radius: 4px;
 
+}
+.svg-icon{
+    fill: var(--dark-mode-text-color) !important;
+    color: var(--dark-mode-text-color);
 }
 .gost-btn {
     align-items: center;
@@ -393,7 +399,8 @@ nav {
     gap: 2rem;
     transition: var(--transition);
     overflow: hidden;
-    border: solid 1px transparent;
+    border: solid 2px transparent;
+    border-bottom-color: var(--dark-mode-border-color) ;
 }
 .works-cont:hover{
     background-color: var(--dark-mode-container-background);
@@ -543,7 +550,7 @@ overflow: hidden;
    padding: 12px;
    background-color: transparent;
    border: solid 1px var(--dark-mode-text-color);
-   color: rgba(223, 222, 255, 0.67);
+   color: var(--dark-mode-text-color);
    border-radius: 4px;
    font-size: 1rem;
    transition:var(--transition);
@@ -574,7 +581,7 @@ footer {
 
     gap: 80px;
     padding-inline: 100px;
-    background-color: #00071D;
+    background-color: var(--dark-mode-footer-color);
 }
 .footer-content{
     width: 100%;

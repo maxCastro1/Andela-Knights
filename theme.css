@@ -1,0 +1,12 @@
+.light-mode {
+    background-color: var(--dark-mode-background);
+    color: #FFF; /* White text for dark background */
+  
+    .light-mode-text-color {
+      color: var(--dark-mode-text-color); /* Override for specific elements if needed */
+    }
+  
+    .dark-mode-border-color {
+      border-color: var(--dark-mode-border-color); /* Override for specific elements if needed */
+    }
+  }
