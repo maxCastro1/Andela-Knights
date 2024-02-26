@@ -82,7 +82,7 @@ nav {
 }
 .sign-btn:hover,form > button:hover,.sign-btn-mobile:hover {
   background-color: var(--dark-mode-text-color);
-  color: var(--dark-mode-background);
+  color: var(--dark-mode-background) !important;
   cursor: pointer;
 }
 .hero-section{
@@ -131,6 +131,11 @@ nav {
 .svg-icon{
     fill: var(--dark-mode-text-color) !important;
     color: var(--dark-mode-text-color);
+  
+
+}
+.svg-icon-stroke {
+    stroke: var(--dark-mode-text-color);
 }
 .gost-btn {
     align-items: center;

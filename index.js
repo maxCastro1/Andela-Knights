@@ -34,7 +34,7 @@ const lightModeColors = {
     '--text-color': '#00071D', // replace with your light mode text color
     '--border-color': '#D1D1D1', // replace with your light mode border color
      '--container-background': '#fbfbfb', // replace with your light mode container background
-    '--background': '#FFFFF0' // replace with your light mode background
+    '--background': '#fffffc' // replace with your light mode background
   };
   
   // Get the button element
@@ -42,12 +42,12 @@ const lightModeColors = {
 const root = document.documentElement;
 
 
-toggleButton.addEventListener('click', function() {
-  const currentMode = getComputedStyle(root).getPropertyValue('--dark-mode') === 'true' ? 'dark' : 'light';
+function setTheme(theme) {
+//   const currentMode = getComputedStyle(root).getPropertyValue('--dark-mode') === 'true' ? 'dark' : 'light';
 
-  if (currentMode === 'light') {
+  if (theme === 'dark') {
     root.style.setProperty('--dark-mode', 'true');
-    root.style.setProperty('--dark-mode-background', lightModeColors['background']);
+    root.style.setProperty('--dark-mode-background', lightModeColors['--background']);
     root.style.setProperty('--dark-mode-text-color', lightModeColors['--text-color']);
     root.style.setProperty('--dark-mode-container-background', lightModeColors['--container-background']);
     root.style.setProperty('--dark-mode-border-color', lightModeColors['--border-color']);
@@ -60,4 +60,24 @@ toggleButton.addEventListener('click', function() {
     root.style.setProperty('--dark-mode-border-color', "#00114A");
     root.style.setProperty('--dark-mode-footer-color', '#00071D');
   }
+};
+
+function getThemePreference() {
+    const storedTheme = localStorage.getItem('theme');
+    return storedTheme || 'light'; // Default to light mode if not stored
+  }
+
+const preferredTheme = getThemePreference();
+setTheme(preferredTheme);
+
+// Add event listener for toggle button click
+toggleButton.addEventListener('click', function() {
+  const currentMode = getComputedStyle(root).getPropertyValue('--dark-mode') === 'true' ? 'dark' : 'light';
+  const newTheme = currentMode === 'light' ? 'dark' : 'light';
+ console.log(currentMode);
+  // Set the new theme in the UI
+  setTheme(newTheme);
+
+  // Store the new theme preference in local storage
+  localStorage.setItem('theme', newTheme);
 });
