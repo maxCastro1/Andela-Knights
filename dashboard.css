@@ -80,9 +80,10 @@ form {
    cursor: pointer;
    background-color: transparent;
    border: none;  
+   border: solid 1px white;
 }
 .blog-footer {
-    align-items: center;
+    align-items: flex-end;
 }
 .edit-btn > button:hover{
    opacity: .5;

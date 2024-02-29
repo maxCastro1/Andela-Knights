@@ -464,6 +464,7 @@ nav {
     border-radius: 8px;
     transition: var(--transition);
     width: 100%;
+    height: max-content;
 
 }
 .blog-cards:hover{
@@ -482,8 +483,11 @@ border-radius: .5rem;
 overflow: hidden;
 }
 .blog-card-img > img{
-
+        height: 100%;
+        /* max-height: 400px; */
         width: 100%;
+        object-fit: cover;
+        aspect-ratio: 9/4;
     
 }
 .blog-card-bottom{
@@ -608,7 +612,7 @@ footer  .social-links {
         justify-items: center;
     }
     .blog-cards {
-        max-width: 450px;
+        /* max-width: 450px; */
     }
 }
 
