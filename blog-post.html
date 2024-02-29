@@ -134,5 +134,28 @@
         <p>2024 Mizero Maxime. All right reserved.</p>
     </footer>
     <script src="./index.js"></script>
+    <script>
+        window.onload = function() {
+            // Get the blog title from the URL
+            var url = window.location.href;
+            var blogTitle = url.substring(url.lastIndexOf('/') + 1);
+    
+            // Get the blog data from local storage
+            var blog = JSON.parse(localStorage.getItem(blogTitle));
+            console.log(blog);
+    
+            if (blog) {
+                // Display the blog data
+                document.querySelector('.blog-category').textContent = blog.category;
+                document.querySelector('.blog-title').textContent = blog.title;
+                document.querySelector('.blog-description').textContent = blog.description;
+                document.querySelector('.blog-card-img img').src = blog.image;
+            } else {
+                // Handle the case where the blog does not exist
+                alert('Blog not found');
+            }
+        };
+    </script>
+    
 </body>
 </html>

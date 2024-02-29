@@ -81,3 +81,6 @@ toggleButton.addEventListener('click', function() {
   // Store the new theme preference in local storage
   localStorage.setItem('theme', newTheme);
 });
+
+
+// ================================blogs ==============================
