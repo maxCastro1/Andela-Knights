@@ -80,7 +80,6 @@ form {
    cursor: pointer;
    background-color: transparent;
    border: none;  
-   border: solid 1px white;
 }
 .blog-footer {
     align-items: flex-end;
@@ -124,6 +123,28 @@ form {
     background-color: transparent;
     transform: scale(1.2);
 }
+
+.edit-blog-container {
+    position: fixed;
+    inset: 0;
+    height: 100%;
+    background-color: var(--dark-mode-background);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    min-height: 768px;
+    overflow-y: scroll;
+    flex-direction: column;
+    display: none;
+
+}
+.edit-blog-container  > form {
+    margin-block: 10rem;
+}
+
 @media screen and (max-width: 1023px) {
     .dashboard-cards {
         display: grid;

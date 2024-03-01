@@ -66,8 +66,8 @@
                 <p class="section-description">Create a new blog post</p>
                <p class="blog-description">Fill the form below</p>
                </div>
-               
-               <form action="">
+              
+               <form action="" id="create-blog-form">
                 <div class="input-field-flex">
                     <div class="input-field">
                         <label>Name of the author</label>
@@ -100,12 +100,11 @@
                 <button> Create New Blog</button>
                 
             </form>
-            </div>
-            <div class="edit-blog" id="edit-blog-cont">
-               
-                <form action="">
-                    <button class="close-blog-form-btn" id="close-blog-form"><img src="./resources/mingcute_close-fill.svg"></button>
-                    <p class="section-description">Edit Blog </p>
+            </div>    
+            <div class="edit-blog-container"> 
+                <button class="close-btn" id="close-update-menu"><img src="./resources/mingcute_close-fill.svg"></button>
+                <form action=""  id="edit-blog-form">
+                    <p class="section-header">update Blog. </p>
                     <div class="input-field-flex">
                         <div class="input-field">
                             <label>Name of the author</label>
@@ -121,10 +120,7 @@
                             <label>Blog Title</label>
                             <input type="text" placeholder="Enter the blog title">
                         </div>
-                        <div class="input-field">
-                            <label>Choose Image:</label>
-                            <input type="file" id="image-upload" accept="image/*" multiple>
-                        </div>
+                    
                     </div>
                     <div class="input-field">
                         <label>Enter Category</label>
@@ -135,10 +131,10 @@
                         <textarea placeholder="Enter your Blog description"></textarea>
                     </div>
                    
-                    <button> Create New Blog</button>
+                    <button type="submit"> Update Blog</button>
                     
-                </form>
-            </div>
+                </form>  
+               </div>   
            <div class="all-blogs-section">
             <p class="section-description">All Blogs<spna class="small" > (4).</spna></p>
             <div class="blog-cards-cont" id="blog-container">
