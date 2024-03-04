@@ -33,13 +33,15 @@ document.querySelector('#create-blog-form').addEventListener('submit', function 
 
 
 window.onload = function () {
-    console.log('ok')
+  
+    let allBlogs = 0
     for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i);
-        console.log(key);
         if (key === 'theme') {
             continue;
         }
+        allBlogs++;
+   
      
         var blog = JSON.parse(localStorage.getItem(key));
         // Check if the item is a blog
@@ -136,6 +138,13 @@ window.onload = function () {
         }
     }
 
+    var allBlogsContainer = document.querySelectorAll('.total-blogs');
+    for (let i = 0; i < allBlogsContainer.length; i++){
+        console.log(i)
+        allBlogsContainer[i].innerHTML = allBlogs;
+    }
+    console.log(allBlogsContainer)
+  
     document.body.addEventListener('click', function (event) {
 
         console.log([...event.target.classList]);
