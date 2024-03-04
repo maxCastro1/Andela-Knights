@@ -454,7 +454,7 @@ nav {
     align-items: center;
     gap: .5rem;
 }
-.blog-cards{
+.blog-cards,.no-blogs{
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -466,6 +466,13 @@ nav {
     width: 100%;
     height: max-content;
 
+}
+.no-blogs {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-inline:auto ;
 }
 .blog-cards:hover{
     cursor: pointer;

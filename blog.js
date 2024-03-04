@@ -35,6 +35,33 @@ document.querySelector('#create-blog-form').addEventListener('submit', function 
 window.onload = function () {
   
     let allBlogs = 0
+    function checkAndDisplayNoBlogsMessage() {
+   
+        let noBlogs = true;
+          for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            if (key === 'theme') {
+              continue;
+          }
+            var blog = JSON.parse(localStorage.getItem(key));
+            if (blog.type === 'blog') {
+              noBlogs = false;
+            }
+          }
+         
+         
+          if (noBlogs) {
+            var blogCard = document.createElement('div');
+            blogCard.className = 'no-blogs';
+            blogCard.textContent = 'No Blogs At This Time';
+            const blogContainer = document.querySelector('#blog-container');
+            blogContainer.style.gridTemplateColumns = 'none';
+            blogContainer.appendChild(blogCard);
+           
+        
+          }
+        }
+        checkAndDisplayNoBlogsMessage();
     for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i);
         if (key === 'theme') {
