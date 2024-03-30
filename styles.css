@@ -613,6 +613,7 @@ footer  .social-links {
     gap: .5rem;
 }
 @media screen and (max-width: 1110px) {
+
     .blog-cards-cont{
         display: grid;
         grid-template-columns: auto;

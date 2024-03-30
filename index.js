@@ -83,121 +83,115 @@ toggleButton.addEventListener('click', function() {
 
 
 // ================================blogs ==============================
-
+const formatDate = (dateString) => {
+  const dateObject = new Date(Date.parse(dateString));
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate = dateObject.toLocaleDateString('en-US', options);
+  return formattedDate;
+}
 window.onload = function () {
   
   let allBlogs = 0
   function checkAndDisplayNoBlogsMessage() {
-   
-  let noBlogs = true;
-    for (var i = 0; i < localStorage.length; i++) {
-      var key = localStorage.key(i);
-      if (key === 'theme') {
-        continue;
-    }
-      var blog = JSON.parse(localStorage.getItem(key));
-      if (blog.type === 'blog') {
-        noBlogs = false;
-      }
-    }
-   
-   
-    if (noBlogs) {
-      var blogCard = document.createElement('div');
-      blogCard.className = 'no-blogs';
-      blogCard.textContent = 'No Blogs At This Time';
-      const blogContainer = document.querySelector('#blog-container');
-      blogContainer.style.gridTemplateColumns = 'none';
-      blogContainer.appendChild(blogCard);
-     
+    var blogCard = document.createElement('div');
+    blogCard.className = 'no-blogs';
+    blogCard.textContent = 'No Blogs At This Time';
+    const blogContainer = document.querySelector('#blog-container');
+    blogContainer.style.gridTemplateColumns = 'none';
+    blogContainer.appendChild(blogCard);
   
+    fetch('http://localhost:3001/blog')
+    .then(response => response.json())  // Parse the response to JSON
+    .then(data => {
+      allBlogs = data;   
+        if (allBlogs.length > 0) {
+         document.querySelector('.no-blogs').remove();
+          for (let i = 0; i < allBlogs.length; i++) {
+            const date = formatDate(allBlogs[i].createdAt);
+            
+            var blogCard = document.createElement('a');
+            blogCard.href = './blog-post.html?id=' + allBlogs[i]._id;
+            // blogCard.href = './blog-post.html/' + allBlogs[i].title;
+            blogCard.className = 'blog-cards';
+            blogCard.dataset.id = allBlogs[i]._id;;
+    
+            var blogCardImg = document.createElement('div');
+            blogCardImg.className = 'blog-card-img';
+            var img = document.createElement('img');
+            img.src = allBlogs[i].image;
+            blogCardImg.appendChild(img);
+    
+            var blogCardBottom = document.createElement('div');
+            blogCardBottom.className = 'blog-card-bottom';
+    
+            // var blogCategory = document.createElement('p');
+            // blogCategory.className = 'blog-category';
+            // blogCategory.textContent = blog.category;
+    
+            var blogTitle = document.createElement('p');
+            blogTitle.className = 'blog-title';
+            blogTitle.textContent = allBlogs[i].title;
+    
+            var blogDescription = document.createElement('p');
+            blogDescription.className = 'blog-description';
+            blogDescription.textContent = allBlogs[i].description;
+    
+            var blogFooter = document.createElement('div');
+            blogFooter.className = 'blog-footer';
+    
+            var avatar = document.createElement('img');
+            avatar.className = 'avatar';
+            avatar.src = 'https://images.unsplash.com/photo-1485579149621-3123dd979885?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fHRlY2hub2xvZ3l8ZW58MHx8MHx8fDA%3D';
+    
+            var blogFooterDescription = document.createElement('div');
+            blogFooterDescription.className = 'blog-footer-description';
+    
+            var footerCategory = document.createElement('p');
+            footerCategory.className = 'blog-category';
+            footerCategory.textContent = 'maxime';
+    
+            var footerDescription = document.createElement('p');
+            footerDescription.className = 'blog-description';
+            footerDescription.innerHTML = date + '<span>• '+ allBlogs[i].readingDuration + ' min read • '+ allBlogs[i].views + ' <img src="./resources/mdi_heart.svg">• '+ allBlogs[i].likes + ' <img src="./resources/mdi_eye.svg"></span>';
+
+    
+            blogFooterDescription.appendChild(footerCategory);
+            blogFooterDescription.appendChild(footerDescription);
+    
+            blogFooter.appendChild(avatar);
+            blogFooter.appendChild(blogFooterDescription);
+    
+    
+    
+            // blogCardBottom.appendChild(blogCategory);
+            blogCardBottom.appendChild(blogTitle);
+            blogCardBottom.appendChild(blogDescription);
+            blogCardBottom.appendChild(blogFooter);
+    
+            blogCard.appendChild(blogCardImg);
+            blogCard.appendChild(blogCardBottom);
+            document.querySelector('#blog-container').appendChild(blogCard);
+    
+            var hiddenIdInput = document.createElement('input');
+            hiddenIdInput.type = 'hidden';
+            hiddenIdInput.value = allBlogs[i].id;
+            hiddenIdInput.id = 'blog-id';
+            // document.querySelector('#edit-blog-form').appendChild(hiddenIdInput);
+        
     }
-  }
+        }
+  
+
+    })
+    .catch(error => console.error('Error fetching blog data:', error));
+};
+   
+   
+
+  
   
   // Call the function to check and display the message
   checkAndDisplayNoBlogsMessage();
-  for (var i = 0; i < localStorage.length; i++) {
-      var key = localStorage.key(i);
-     
-      if (key === 'theme') {
-          continue;
-      }
-      console.log(localStorage.length);
-   
-      allBlogs++;
- 
-   
-      var blog = JSON.parse(localStorage.getItem(key));
-      // Check if the item is a blog
-      if (blog.type === 'blog') {
-          var blogCard = document.createElement('div');
-          // blogCard.href = './blog-post.html/' + blog.title;
-          blogCard.className = 'blog-cards';
-          blogCard.dataset.id = blog.id;
 
-          var blogCardImg = document.createElement('div');
-          blogCardImg.className = 'blog-card-img';
-          var img = document.createElement('img');
-          img.src = blog.image;
-          blogCardImg.appendChild(img);
-
-          var blogCardBottom = document.createElement('div');
-          blogCardBottom.className = 'blog-card-bottom';
-
-          var blogCategory = document.createElement('p');
-          blogCategory.className = 'blog-category';
-          blogCategory.textContent = blog.category;
-
-          var blogTitle = document.createElement('p');
-          blogTitle.className = 'blog-title';
-          blogTitle.textContent = blog.title;
-
-          var blogDescription = document.createElement('p');
-          blogDescription.className = 'blog-description';
-          blogDescription.textContent = blog.description;
-
-          var blogFooter = document.createElement('div');
-          blogFooter.className = 'blog-footer';
-
-          var avatar = document.createElement('img');
-          avatar.className = 'avatar';
-          avatar.src = 'https://images.unsplash.com/photo-1485579149621-3123dd979885?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fHRlY2hub2xvZ3l8ZW58MHx8MHx8fDA%3D';
-
-          var blogFooterDescription = document.createElement('div');
-          blogFooterDescription.className = 'blog-footer-description';
-
-          var footerCategory = document.createElement('p');
-          footerCategory.className = 'blog-category';
-          footerCategory.textContent = 'maxime';
-
-          var footerDescription = document.createElement('p');
-          footerDescription.className = 'blog-description';
-          footerDescription.innerHTML = '11 March 2024 <span>• 5 min read • 7 <img src="./resources/mdi_heart.svg">• 70 <img src="./resources/mdi_eye.svg"></span>';
-
-
-          blogFooterDescription.appendChild(footerCategory);
-          blogFooterDescription.appendChild(footerDescription);
-
-          blogFooter.appendChild(avatar);
-          blogFooter.appendChild(blogFooterDescription);
-  
-
-
-          blogCardBottom.appendChild(blogCategory);
-          blogCardBottom.appendChild(blogTitle);
-          blogCardBottom.appendChild(blogDescription);
-          blogCardBottom.appendChild(blogFooter);
-
-          blogCard.appendChild(blogCardImg);
-          blogCard.appendChild(blogCardBottom);
-          document.querySelector('#blog-container').appendChild(blogCard);
-
-          var hiddenIdInput = document.createElement('input');
-          hiddenIdInput.type = 'hidden';
-          hiddenIdInput.value = blog.id;
-          hiddenIdInput.id = 'blog-id';
-          document.querySelector('#edit-blog-form').appendChild(hiddenIdInput);
-      }
-  }
 
 };
