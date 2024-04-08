@@ -4,6 +4,15 @@ const mobileNav = document.getElementById('mobile-navigation');
 const closeBtn = document.getElementById('close-menu');
 const links = mobileNav.querySelectorAll('a');
 
+
+const showToasts = (message, isError) => {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  x.style.color = isError ? 'red' : 'green';
+  x.textContent = message;
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+} 
+
 menuBtn.addEventListener('click', () => {
   console.log("ok");
   mobileNav.classList.toggle('active');
@@ -16,7 +25,6 @@ links.forEach(link => link.addEventListener('click', () => mobileNav.classList.r
 const editBtn = document.querySelectorAll('.blog-edit-button');
 const editForm = document.getElementById('edit-blog-cont');
 const editFormClose = document.getElementById('close-blog-form');
-console.log(editBtn);
 
 for (let i = 0; i < editBtn.length; i++) {
     editBtn[i].addEventListener('click', () => {
@@ -84,3 +92,155 @@ toggleButton.addEventListener('click', function() {
 
 
 // ================================blogs ==============================
+const formatDate = (dateString) => {
+  const dateObject = new Date(Date.parse(dateString));
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate = dateObject.toLocaleDateString('en-US', options);
+  return formattedDate;
+}
+window.onload = function () {
+  
+  let allBlogs = 0
+  function checkAndDisplayNoBlogsMessage() {
+    var blogCard = document.createElement('div');
+    blogCard.className = 'no-blogs';
+    blogCard.textContent = 'No Blogs At This Time';
+    const blogContainer = document.querySelector('#blog-container');
+    blogContainer.style.gridTemplateColumns = 'none';
+    blogContainer.appendChild(blogCard);
+  
+    fetch('https://portofolio-backend-lhcp.onrender.com/blog/')
+    .then(response => response.json())  // Parse the response to JSON
+    .then(data => {
+      allBlogs = data;   
+        if (allBlogs.length > 0) {
+         document.querySelector('.no-blogs').remove();
+         blogContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
+          for (let i = 0; i < allBlogs.length; i++) {
+            const date = formatDate(allBlogs[i].createdAt);
+            
+            var blogCard = document.createElement('a');
+            blogCard.href = './blog-post.html?id=' + allBlogs[i]._id;
+            // blogCard.href = './blog-post.html/' + allBlogs[i].title;
+            blogCard.className = 'blog-cards';
+            blogCard.dataset.id = allBlogs[i]._id;;
+    
+            var blogCardImg = document.createElement('div');
+            blogCardImg.className = 'blog-card-img';
+            var img = document.createElement('img');
+            img.src = allBlogs[i].image;
+            blogCardImg.appendChild(img);
+    
+            var blogCardBottom = document.createElement('div');
+            blogCardBottom.className = 'blog-card-bottom';
+    
+            // var blogCategory = document.createElement('p');
+            // blogCategory.className = 'blog-category';
+            // blogCategory.textContent = blog.category;
+    
+            var blogTitle = document.createElement('p');
+            blogTitle.className = 'blog-title';
+            blogTitle.textContent = allBlogs[i].title;
+    
+            var blogDescription = document.createElement('p');
+            blogDescription.className = 'blog-description';
+            blogDescription.textContent = allBlogs[i].description;
+    
+            var blogFooter = document.createElement('div');
+            blogFooter.className = 'blog-footer';
+    
+            var avatar = document.createElement('img');
+            avatar.className = 'avatar';
+            avatar.src = 'https://images.unsplash.com/photo-1485579149621-3123dd979885?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fHRlY2hub2xvZ3l8ZW58MHx8MHx8fDA%3D';
+    
+            var blogFooterDescription = document.createElement('div');
+            blogFooterDescription.className = 'blog-footer-description';
+    
+            var footerCategory = document.createElement('p');
+            footerCategory.className = 'blog-category';
+            footerCategory.textContent = 'maxime';
+    
+            var footerDescription = document.createElement('p');
+            footerDescription.className = 'blog-description';
+            footerDescription.innerHTML = date + '<span>• '+ allBlogs[i].readingDuration + ' min read • '+ allBlogs[i].likes + ' <img src="./resources/mdi_heart.svg">• ' + allBlogs[i].views+ ' <img src="./resources/mdi_eye.svg"></span>';
+
+    
+            blogFooterDescription.appendChild(footerCategory);
+            blogFooterDescription.appendChild(footerDescription);
+    
+            blogFooter.appendChild(avatar);
+            blogFooter.appendChild(blogFooterDescription);
+    
+    
+    
+            // blogCardBottom.appendChild(blogCategory);
+            blogCardBottom.appendChild(blogTitle);
+            blogCardBottom.appendChild(blogDescription);
+            blogCardBottom.appendChild(blogFooter);
+    
+            blogCard.appendChild(blogCardImg);
+            blogCard.appendChild(blogCardBottom);
+            document.querySelector('#blog-container').appendChild(blogCard);
+    
+            var hiddenIdInput = document.createElement('input');
+            hiddenIdInput.type = 'hidden';
+            hiddenIdInput.value = allBlogs[i].id;
+            hiddenIdInput.id = 'blog-id';
+            // document.querySelector('#edit-blog-form').appendChild(hiddenIdInput);
+        
+    }
+        }
+  
+
+    })
+    .catch(error => console.error('Error fetching blog data:', error));
+};
+   
+   
+
+  
+  
+  // Call the function to check and display the message
+  checkAndDisplayNoBlogsMessage();
+
+
+};
+const formContact = document.getElementById('contactForm')
+if (formContact){
+  formContact.addEventListener('submit', function(event) {
+    event.preventDefault();
+  
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+  
+    fetch('https://portofolio-backend-lhcp.onrender.com/user/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, message }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+        showToasts("Message sent!", false);
+  
+        document.getElementById('contactForm').reset();
+      }
+      )
+    .catch((error) => {
+      console.error('Error:', error);
+      showToasts("Something went wrong, Please try again", false);
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const signInButton = document.querySelector("#home");
+  var token = localStorage.getItem('token');
+  if (token) {
+    signInButton.textContent = "Dashboard";
+    signInButton.href = "dashboard.html";
+  }
+});

@@ -35,7 +35,7 @@
             </div>
            </nav>
            <div class="main-content">
-            <form action="">
+            <form id="login-form">
                 <h1>Login</h1>
                 <p>Welcome Back!</p>
                 <div class="input-field">
@@ -44,13 +44,13 @@
                 </div>
                 <div class="input-field">
                     <label>Password</label>
-                    <input type="password" placeholder="Enter your email" required>
+                    <input type="password" id="password" placeholder="Enter your password" required>
                 </div>
-               
-                <button> <a href="./dashboard.html">Login</a></button>
-                
+                <div id="error-message" style="color: red;"></div>
+                <button type="submit">Login</button>
             </form>
-           </div>
+        </div>
+        
     </section>
    
 
@@ -95,5 +95,6 @@
         <p>2024 Mizero Maxime. All right reserved.</p>
     </footer>
     <script src="./index.js"></script>
+    <script src="./login.js"></script>
 </body>
 </html>
