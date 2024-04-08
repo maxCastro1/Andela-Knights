@@ -74,48 +74,18 @@
                     </div>
                     <button class="gost-btn" id="like-btn">Like<img src="./resources/like.svg"></button>
                     <div>
-                        <p class="section-description">Comments<span class="small"> (10).</span></p>
-                        <div>
-                            <div class="comment">
-                                <div class="blog-footer">
-                                    <img src="https://images.unsplash.com/photo-1485579149621-3123dd979885?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fHRlY2hub2xvZ3l8ZW58MHx8MHx8fDA%3D"
-                                        class="avatar">
-                                    <div class="blog-footer-description">
-                                        <p class="blog-category">maxime</p>
-                                        <p class="blog-description">1 month ago </p>
-                                    </div>
-
-                                </div>
-                                <p class="blog-description line-bottom">Impressive! Though it seems the drag feature
-                                    could be improved. But overall it looks incredible. You’ve nailed the design and the
-                                    responsiveness at various breakpoints works really well.</p>
-
+                        <p class="section-description">Comments<span class="small"> (0).</span></p>
+                        <form class="comment-form">
+                            <div class="input-field">
+                                <label>Add Comment</label>
+                                <input type="text" placeholder="Add your Name">
                             </div>
-                            <div class="comment">
-                                <div class="blog-footer">
-                                    <img src="https://images.unsplash.com/photo-1485579149621-3123dd979885?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fHRlY2hub2xvZ3l8ZW58MHx8MHx8fDA%3D"
-                                        class="avatar">
-                                    <div class="blog-footer-description">
-                                        <p class="blog-category">maxime</p>
-                                        <p class="blog-description">11 March 2024 </p>
-                                    </div>
-
-                                </div>
-                                <p class="blog-description">Impressive! Though it seems the drag feature could be
-                                    improved. But overall it looks incredible. You’ve nailed the design and the
-                                    responsiveness at various breakpoints works really well.</p>
-
+                            <div class="input-field">
+                                <textarea placeholder="Add your comment..."></textarea>
                             </div>
-                            <form class="comment-form">
-                                <div class="input-field">
-                                    <label>Comment</label>
-                                    <input type="text" placeholder="Add your Name">
-                                </div>
-                                <div class="input-field">
-                                    <textarea placeholder="Add your comment..."></textarea>
-                                </div>
-                                <button> Post</button>
-                            </form>
+                            <button id="comment-submit-btn" >Post</button>
+                        </form>
+                        <div class="comment-list">
                         </div>
                     </div>
                 </div>
@@ -123,6 +93,7 @@
         </div>
 
     </section>
+    <div id="snackbar"></div>
     <footer>
         <div class="footer-content">
             <p class="logo">Max.</p>
@@ -144,93 +115,7 @@
         <p>2024 Mizero Maxime. All right reserved.</p>
     </footer>
     <script src="./index.js"></script>
-    <script>
-            var url = window.location.href;
-            var blogId = url.substring(url.lastIndexOf('=') + 1);
-        window.onload = function () {
-            // Get the blog title from the URL
-            console.log(blogId);
-            if (!url.includes('=')) {
-                window.location.href = '/';
-               }
-            else {
-                
-            }
-          
-          
-                
-                const formatDate = (dateString) => {
-                const dateObject = new Date(Date.parse(dateString));
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                const formattedDate = dateObject.toLocaleDateString('en-US', options);
-                return formattedDate; 
-            }
-            
-
-            fetch('http://localhost:3001/blog/' + blogId)
-                .then(response => response.json())  // Parse the response to JSON
-                .then(data => {
-
-                    // Check if data exists
-                    console.log(data)
-                    if (data) {
-                        const date = formatDate(data.createdAt);
-                        document.querySelector('.blog-category').textContent = data.category;
-                        document.querySelector('.blog-title').textContent = data.title;
-                        document.querySelector('.blog-description').textContent = data.description;
-                        document.querySelector('.blog-card-img img').src = data.image;
-                        document.querySelector('#time').innerHTML = date + '<span>• ' + data.readingDuration + 'min read • ' + data.likes + ' <img src="./resources/mdi_heart.svg">• ' + data.views + ' <img src="./resources/mdi_eye.svg"></span>';
-                    } else {
-                        // Handle the case where the blog does not exist
-                        alert('Blog not found');
-                        window.location.href = '/';
-                    }
-                })
-                .catch(error => 
-                {
-                    console.error('Error fetching blog data:', error)
-                    window.location.href = '/';
-                }
-              
-                );
-
-
-            fetch(`http://localhost:3001/blog/${blogId}/view`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-
-                .then(response => response.json())  // Parse the response to JSON
-                .then(data => {
-                    // Handle your data here
-                    console.log(data);
-                })
-                .catch(error => console.error('Error:', error));
-            }
-
-      
-
-
-        
-        document.querySelector('#like-btn').addEventListener('click', function () {
-            fetch(`http://localhost:3001/blog/${blogId}/like`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-                .then(response => response.json())  // Parse the response to JSON
-                .then(data => {
-                    // Handle your data here
-                    console.log(data);
-                    location.reload();
-                })
-                .catch(error => console.error('Error:', error));
-        });
-
-    </script>
+    <script src="./singleBlog.js"></script>
 
 </body>
 

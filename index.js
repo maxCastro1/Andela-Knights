@@ -4,6 +4,15 @@ const mobileNav = document.getElementById('mobile-navigation');
 const closeBtn = document.getElementById('close-menu');
 const links = mobileNav.querySelectorAll('a');
 
+
+const showToasts = (message, isError) => {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  x.style.color = isError ? 'red' : 'green';
+  x.textContent = message;
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+} 
+
 menuBtn.addEventListener('click', () => {
   console.log("ok");
   mobileNav.classList.toggle('active');
@@ -100,12 +109,13 @@ window.onload = function () {
     blogContainer.style.gridTemplateColumns = 'none';
     blogContainer.appendChild(blogCard);
   
-    fetch('http://localhost:3001/blog')
+    fetch('https://portofolio-backend-lhcp.onrender.com/blog/')
     .then(response => response.json())  // Parse the response to JSON
     .then(data => {
       allBlogs = data;   
         if (allBlogs.length > 0) {
          document.querySelector('.no-blogs').remove();
+         blogContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
           for (let i = 0; i < allBlogs.length; i++) {
             const date = formatDate(allBlogs[i].createdAt);
             
@@ -152,7 +162,7 @@ window.onload = function () {
     
             var footerDescription = document.createElement('p');
             footerDescription.className = 'blog-description';
-            footerDescription.innerHTML = date + '<span>• '+ allBlogs[i].readingDuration + ' min read • '+ allBlogs[i].views + ' <img src="./resources/mdi_heart.svg">• '+ allBlogs[i].likes + ' <img src="./resources/mdi_eye.svg"></span>';
+            footerDescription.innerHTML = date + '<span>• '+ allBlogs[i].readingDuration + ' min read • '+ allBlogs[i].likes + ' <img src="./resources/mdi_heart.svg">• ' + allBlogs[i].views+ ' <img src="./resources/mdi_eye.svg"></span>';
 
     
             blogFooterDescription.appendChild(footerCategory);
@@ -195,3 +205,42 @@ window.onload = function () {
 
 
 };
+const formContact = document.getElementById('contactForm')
+if (formContact){
+  formContact.addEventListener('submit', function(event) {
+    event.preventDefault();
+  
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+  
+    fetch('https://portofolio-backend-lhcp.onrender.com/user/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, message }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+        showToasts("Message sent!", false);
+  
+        document.getElementById('contactForm').reset();
+      }
+      )
+    .catch((error) => {
+      console.error('Error:', error);
+      showToasts("Something went wrong, Please try again", false);
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const signInButton = document.querySelector("#home");
+  var token = localStorage.getItem('token');
+  if (token) {
+    signInButton.textContent = "Dashboard";
+    signInButton.href = "dashboard.html";
+  }
+});
